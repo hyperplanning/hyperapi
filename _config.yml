@@ -2,8 +2,9 @@ theme: minima
 show_excerpts: true
 
 header_pages:
-  - api_reference.md
-  - quickstart.md
+  - README.md
+  - /docs/api_reference.md
+  - /docs/quickstart.md
 
 sidebar:
   home: true

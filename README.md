@@ -1,3 +1,8 @@
+---
+title: Home
+nav_order: 0
+---
+
 Hyperplan provides an API access to his clients and partnership companies.
 
 ## API Reference
