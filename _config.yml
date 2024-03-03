@@ -1,10 +1,1 @@
 theme: just-the-docs
-show_excerpts: true
-
-header_pages:
-  - docs/api_reference.md
-  - docs/quickstart.md
-
-sidebar:
-  home: true
-  toc: true
