@@ -1,0 +1,10 @@
+theme: minima
+show_excerpts: true
+
+header_pages:
+  - api_reference.md
+  - quickstart.md
+
+sidebar:
+  home: true
+  toc: true

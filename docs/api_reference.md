@@ -1,5 +1,9 @@
-# API Reference
 ---
+title: API Reference
+nav_order: 1
+---
+
+# API Reference
 
 The Parcel API facilitates robust parcel data management operations. 
 
