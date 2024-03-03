@@ -54,7 +54,7 @@ The API will provide Label Metadata in the following format:
 }
 ```
 
-## Listing Label Metadata
+## HTTP Request
 To get Metadata information available to your organisation, use the `/labels/info` endpoint:
 
 GET `/v1/labels/info`
@@ -83,6 +83,7 @@ Here are the Labels available in Hyperplan Organization, excluding private label
 | Irrigation            | Observation if the parcel is irrigated or not (parcel property, not real time) | Number   | Hyperplan              | False  | False  |
 | Hydric stress         | Observation if the parcel hydric stress level or not (parcel property)         | Number   | Hyperplan              | False  | False  |
 | Closest silo          | Closest silo parcel defines, according to the organisation                     | Object   | Client Silo Base       | False  | False  |
+| Zones                 | Zones to which the parcel Belongs                                              | Object   | Hyperplan              | False  | False  |
 | Crop detail           | Provide information about the crop                                             | Text     | Hyperplan              | False  | False  |
 | Farm                  | Farm owner of that parcel                                                      | Object   | Client CRM Information | False  | False  |
 | Sowing date           | Detected sowing date                                                           | Date     | Hyperplan              | True   | False  |
@@ -94,6 +95,27 @@ Here are the Labels available in Hyperplan Organization, excluding private label
 
 
 ## Looking up a Parcel and its labels
+Retrieves detailed information about a specific parcel by its ID, with an optional filter for specific labels based on their `meta_id`.
 
-## Searching for a range of Parcels and its labels
+### HTTP Request
+`GET /v1/parcels/{parcel_id}`
+
+### Parameters
+
+| Name       | Description  | Type    | In    | Required |
+|------------|--------------|---------|-------|----------|
+| `parcel_id`| The unique identifier for the parcel. | integer | path | Yes |
+| `meta_id`  | Optional filter to retrieve labels by their meta identifier. | integer | query | No |
+
+### Response
+```json
+{
+  "id": 0,
+  "geometry": "string",
+  "centroid": "string",
+  "labels": [<label object>]
+}
+```
+
+## Searching for a range of Parcels and their labels
 
