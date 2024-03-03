@@ -154,3 +154,65 @@ Similar to the Search Count endpoint, the request body for Search Parcels requir
 
 #### Response
 The response is a list of Parcel objects, each representing a parcel that meets the filter criteria. The ParcelSchema includes detailed information about each parcel, such as its unique identifier, associated label data, and other relevant attributes.
+
+### Examples:
+Given the list of possible labels for parcel data within the API, let's explore some relevant examples of filters that could be used with the `Search Count Parcels` and `Search Parcels` endpoints. These examples will demonstrate how to construct `Filter` objects based on various criteria, aligning with the attributes of the parcels such as area, NDVI, crop product, yield, temperature, rainfalls, soil type, and irrigation status.
+
+### Example 1: Filter by Area
+
+To find parcels larger than 10 hectares:
+
+```json
+{
+  "meta_id": 1,  // Assuming 1 is the ID for "Area"
+  "operation": ">",
+  "value": 10
+}
+```
+
+### Example 2: Filter by NDVI for a Specific Year and Week
+To select parcels with an average NDVI less than 0.5 in the year 2023 and week 24:
+```json
+{
+  "meta_id": 2,  // Assuming 2 is the ID for "NDVI"
+  "operation": "<",
+  "year": 2023,
+  "week": 24,
+  "value": 0.5
+}
+```
+
+### Example 3: Filter by Crop Product
+To find parcels where the detected crop is "Wheat" in 2023:
+```json
+{
+  "meta_id": 3,  // Assuming 3 is the ID for "Product"
+  "operation": "=",
+  "year": 2023,
+  "value": 1 // Assuming 1 is Wheat Choice ID
+}
+```
+
+### Example 5: Filter by Temperature and Rainfalls
+To find parcels that have observed accumulative temperature above 1000°C and accumulative rainfalls less than 200mm for the year 2023:
+
+```json
+[
+// Temperature Filter
+{
+  "meta_id": 5,  // Assuming 5 is the ID for "Temperature"
+  "operation": ">",
+  "year": 2023,
+  "value": 1000
+}, 
+// Raifall Filter
+{
+  "meta_id": 6,  // Assuming 6 is the ID for "Rainfalls"
+  "operation": "<",
+  "year": 2023,
+  "value": 200
+}
+]
+```
+
+
