@@ -1,5 +1,3 @@
-# Hyperplan External API Documentation
-
 Hyperplan provides an API access to his clients and partnership companies.
 
 ## API Reference

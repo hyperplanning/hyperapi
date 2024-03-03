@@ -2,9 +2,6 @@
 title: API Reference
 nav_order: 1
 ---
-
-# API Reference
-
 The Parcel API facilitates robust parcel data management operations. 
 
 It encompasses endpoints for getting information about parcel and label metadata, alongside specialized search functionalities for comprehensive data retrieval and analysis. This API is designed to streamline parcel data retrieval, offering detailed insights and control over parcel data for efficient operations.
