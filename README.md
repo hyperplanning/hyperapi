@@ -1,7 +1,4 @@
----
-title: Home
-nav_order: 0
----
+[Hyperplan](www.hyperplan.fr) is dedicated to enhancing the growth and sustainability of the entire agri-food chain by providing reliable, real-time information on crop production. Amidst the increasing volatility in agricultural production due to climate change, market demand shifts, and geopolitical disturbances, we believes in the critical importance of having real-time, reliable visibility into agricultural production. Our mission is to offer unparalleled insight that drives the growth and sustainability of the whole agri-food chain, leveraging advanced remote sensing data and AI technology to transform parcel-level data into actionable decisions for daily operations.
 
 Hyperplan provides an API access to his clients and partnership companies.
 
