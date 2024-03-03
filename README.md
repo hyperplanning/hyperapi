@@ -2,8 +2,14 @@
 
 Hyperplan provides an API access to his clients and partnership companies.
 
-## API Reference
-[Hyperplan External API](./docs/api_reference.md) can be used to search and access parcel specific information, called `label`.
+## [API](./docs/api_reference.md) Reference
+The [Parcel API](./docs/api_reference.md) is designed for efficient parcel data management, featuring endpoints for accessing parcel and label metadata, and incorporating advanced search capabilities for thorough data retrieval and analysis. It aims to simplify parcel data access, providing in-depth insights for streamlined operations.
+
+Label metadata includes detailed information about parcel labels such as unique identifiers, names, descriptions, categories (e.g., "TEXT"), and properties indicating the frequency of application (yearly, weekly). It also includes visual differentiation features like color and icon, and validation criteria depending on the label type (TEXT, NUMERICAL, DATE, OBJECT).
+
+The API provides detailed label metadata in a predefined format, including validation types and choices, enhancing data annotation and retrieval in complex systems. Additionally, it outlines available labels within the Hyperplan Organization, covering various parcel characteristics from area and crop details to environmental conditions and parcel properties, excluding private labels.
+
+For parcel-specific information, the API supports retrieving detailed data by parcel ID, with optional filters for labels, years, and weeks, offering a comprehensive view of parcel characteristics and changes over time.
 
 
 ## HyperClient
