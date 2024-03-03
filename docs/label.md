@@ -105,7 +105,9 @@ Retrieves detailed information about a specific parcel by its ID, with an option
 | Name       | Description  | Type    | In    | Required |
 |------------|--------------|---------|-------|----------|
 | `parcel_id`| The unique identifier for the parcel. | integer | path | Yes |
-| `meta_id`  | Optional filter to retrieve labels by their meta identifier. | integer | query | No |
+| `meta_id`  | Optional filter list to retrieve labels by their meta identifier. | integer | query | No |
+| `years`  | Optional year filter list to retrieve labels | integer | query | No |
+| `weeks`  | Optional week filter list to retrieve labels | integer | query | No |
 
 ### Response
 ```json
@@ -113,7 +115,20 @@ Retrieves detailed information about a specific parcel by its ID, with an option
   "id": 0,
   "geometry": "string",
   "centroid": "string",
-  "labels": [<label object>]
+  "labels": [
+    {
+      "meta_id": 1,
+      "week": 24,
+      "year": 2023,
+      "value": "Value specific to the label for this week and year"
+    },
+    {
+      "meta_id": 2,
+      "week": 24,
+      "year": 2023,
+      "value": "Another value for a different label, same week and year"
+    }
+  ]
 }
 ```
 
