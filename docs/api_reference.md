@@ -102,10 +102,9 @@ Retrieves detailed information about a specific parcel by its ID, with an option
 `GET /v1/parcels/{parcel_id}`
 
 ### Parameters
-
 | Name       | Description  | Type    | In    | Required |
 |------------|--------------|---------|-------|----------|
-| `parcel_id`| The unique identifier for the parcel. | integer | path | Yes |
+| `parcel_id`| The unique Hyperplan identifier for the parcel. | integer | path | Yes |
 | `meta_id`  | Optional filter list to retrieve labels by their meta identifier. | integer | query | No |
 | `years`  | Optional year filter list to retrieve labels | integer | query | No |
 | `weeks`  | Optional week filter list to retrieve labels | integer | query | No |
@@ -114,6 +113,7 @@ Retrieves detailed information about a specific parcel by its ID, with an option
 ```json
 {
   "id": 0,
+  "code": 0,
   "geometry": "string",
   "centroid": "string",
   "labels": [
@@ -133,14 +133,46 @@ Retrieves detailed information about a specific parcel by its ID, with an option
 }
 ```
 
+Where `geometry` is the WKT string of the parcel polygon, `centroid` is the long/lat centroid of the parcel, `code` is the external reference id of the parcel (for France it is the RPG parcel id).
+
+It is also possible to query a parcel with it's external code, although unicity is not garanteed.
+### HTTP Request
+`GET /v1/parcels/code/{code}`
+
+### Parameters
+| Name       | Description  | Type    | In    | Required |
+|------------|--------------|---------|-------|----------|
+| `code`| The external identifier for the parcel. | integer | path | Yes |
+| `meta_id`  | Optional filter list to retrieve labels by their meta identifier. | integer | query | No |
+| `years`  | Optional year filter list to retrieve labels | integer | query | No |
+| `weeks`  | Optional week filter list to retrieve labels | integer | query | No |
+
+
 ## Searching for a range of Parcels and their labels
-The Hyperplan API system provides two primary endpoints for querying parcel data, namely Search Count and Search Parcels. These endpoints allow users to apply various filters to search through parcels based on metadata attributes. The core component driving these searches is the Search Query Object, which encapsulates the criteria for filtering parcels. Let's dive deeper into these endpoints and the structure of a Search Query Object.
+The Hyperplan API system provides a for querying parcel data, namely Search Count and Search Parcels. These endpoints allow users to apply various filters to search through parcels based on metadata attributes. The core component driving these searches is the Search Query Object, which encapsulates the criteria for filtering parcels.
 
 ### Search Count Parcels
 The Search Count endpoint is designed to count the number of parcels that meet specific criteria without returning the parcel data themselves. This is particularly useful for generating statistics or understanding the volume of parcels that match certain conditions.
 
 #### Request
+`GET /v1/search/count`
+
 The request for this endpoint requires a list of Filter objects. Each Filter specifies a condition that the parcels must meet. The conditions are based on the metadata attributes associated with each parcel. The filters define the metadata ID (`meta_id`), the operation to perform (such as `=`, `>`, `<`, `in`), and the values to compare against. The endpoint aggregates these filters to compute the count of parcels matching all provided criteria.
+
+#### Request Body
+[
+  {
+    "meta_id": 0,
+    "operation": "=, >, < or in",
+    "year": 0,
+    "week": 0,
+    "value": 0
+  },
+  {
+    ...
+  }
+]
+
 
 #### Response
 The response from this endpoint is a single integer value representing the count of parcels that satisfy all the specified filters. This count is useful for analytics and reporting purposes.
@@ -151,6 +183,22 @@ The Search Parcels endpoint retrieves detailed information about parcels that ma
 
 #### Request
 Similar to the Search Count endpoint, the request body for Search Parcels requires a list of Filter objects, defining the criteria for which parcels to retrieve. Each Filter object details the metadata ID, operation, and value(s) to apply in the search.
+`GET /v1/search/parcels`
+
+#### Request Body
+[
+  {
+    "meta_id": 0,
+    "operation": "=, >, < or in",
+    "year": 0,
+    "week": 0,
+    "value": 0
+  },
+  {
+    ...
+  }
+]
+
 
 #### Response
 The response is a list of Parcel objects, each representing a parcel that meets the filter criteria. The ParcelSchema includes detailed information about each parcel, such as its unique identifier, associated label data, and other relevant attributes.
@@ -158,13 +206,12 @@ The response is a list of Parcel objects, each representing a parcel that meets 
 ### Examples:
 Given the list of possible labels for parcel data within the API, let's explore some relevant examples of filters that could be used with the `Search Count Parcels` and `Search Parcels` endpoints. These examples will demonstrate how to construct `Filter` objects based on various criteria, aligning with the attributes of the parcels such as area, NDVI, crop product, yield, temperature, rainfalls, soil type, and irrigation status.
 
+
 ### Example 1: Filter by Area
-
 To find parcels larger than 10 hectares:
-
 ```json
 {
-  "meta_id": 1,  // Assuming 1 is the ID for "Area"
+  "meta_id": 1,  # Assuming 1 is the ID for "Area"
   "operation": ">",
   "value": 10
 }
@@ -174,7 +221,7 @@ To find parcels larger than 10 hectares:
 To select parcels with an average NDVI less than 0.5 in the year 2023 and week 24:
 ```json
 {
-  "meta_id": 2,  // Assuming 2 is the ID for "NDVI"
+  "meta_id": 2,  # Assuming 2 is the ID for "NDVI"
   "operation": "<",
   "year": 2023,
   "week": 24,
@@ -186,33 +233,30 @@ To select parcels with an average NDVI less than 0.5 in the year 2023 and week 2
 To find parcels where the detected crop is "Wheat" in 2023:
 ```json
 {
-  "meta_id": 3,  // Assuming 3 is the ID for "Product"
+  "meta_id": 3,  # Assuming 3 is the ID for "Product"
   "operation": "=",
   "year": 2023,
-  "value": 1 // Assuming 1 is Wheat Choice ID
+  "value": 1 # Assuming 1 is Wheat Choice ID
 }
 ```
 
 ### Example 5: Filter by Temperature and Rainfalls
 To find parcels that have observed accumulative temperature above 1000°C and accumulative rainfalls less than 200mm for the year 2023:
-
 ```json
 [
 // Temperature Filter
 {
-  "meta_id": 5,  // Assuming 5 is the ID for "Temperature"
+  "meta_id": 5,  # Assuming 5 is the ID for "Temperature"
   "operation": ">",
   "year": 2023,
   "value": 1000
 }, 
-// Raifall Filter
+# Rainfall Filter
 {
-  "meta_id": 6,  // Assuming 6 is the ID for "Rainfalls"
+  "meta_id": 6,  # Assuming 6 is the ID for "Rainfalls"
   "operation": "<",
   "year": 2023,
   "value": 200
 }
 ]
 ```
-
-
