@@ -102,12 +102,13 @@ Retrieves detailed information about a specific parcel by its ID, with an option
 `GET /v1/parcels/{parcel_id}`
 
 ### Parameters
-| Name       | Description  | Type    | In    | Required |
-|------------|--------------|---------|-------|----------|
-| `parcel_id`| The unique Hyperplan identifier for the parcel. | integer | path | Yes |
-| `meta_id`  | Optional filter list to retrieve labels by their meta identifier. | integer | query | No |
-| `years`  | Optional year filter list to retrieve labels | integer | query | No |
-| `weeks`  | Optional week filter list to retrieve labels | integer | query | No |
+| Name        | Description                                                  | Type    | In    | Required |
+|-------------|--------------------------------------------------------------|---------|-------|----------|
+| `parcel_id` | The unique Hyperplan identifier for the parcel.             | integer | path  | Yes      |
+| `meta_id`   | Optional filter list to retrieve labels by their meta identifier. | integer | query | No       |
+| `years`     | Optional year filter list to retrieve labels                 | integer | query | No       |
+| `weeks`     | Optional week filter list to retrieve labels                 | integer | query | No       |
+
 
 ### Response
 ```json
@@ -137,15 +138,16 @@ Where `geometry` is the WKT string of the parcel polygon, `centroid` is the long
 
 It is also possible to query a parcel with it's external code, although unicity is not garanteed.
 ### HTTP Request
+
 `GET /v1/parcels/code/{code}`
 
 ### Parameters
-| Name       | Description  | Type    | In    | Required |
-|------------|--------------|---------|-------|----------|
-| `code`| The external identifier for the parcel. | integer | path | Yes |
-| `meta_id`  | Optional filter list to retrieve labels by their meta identifier. | integer | query | No |
-| `years`  | Optional year filter list to retrieve labels | integer | query | No |
-| `weeks`  | Optional week filter list to retrieve labels | integer | query | No |
+| Name       | Description                                                  | Type    | In    | Required |
+|------------|--------------------------------------------------------------|---------|-------|----------|
+| `code`     | The external identifier for the parcel.                      | integer | path  | Yes      |
+| `meta_id`  | Optional filter list to retrieve labels by their meta identifier. | integer | query | No       |
+| `years`    | Optional year filter list to retrieve labels                 | integer | query | No       |
+| `weeks`    | Optional week filter list to retrieve labels                 | integer | query | No       |
 
 
 ## Searching for a range of Parcels and their labels
@@ -155,11 +157,13 @@ The Hyperplan API system provides a for querying parcel data, namely Search Coun
 The Search Count endpoint is designed to count the number of parcels that meet specific criteria without returning the parcel data themselves. This is particularly useful for generating statistics or understanding the volume of parcels that match certain conditions.
 
 #### Request
+
 `GET /v1/search/count`
 
 The request for this endpoint requires a list of Filter objects. Each Filter specifies a condition that the parcels must meet. The conditions are based on the metadata attributes associated with each parcel. The filters define the metadata ID (`meta_id`), the operation to perform (such as `=`, `>`, `<`, `in`), and the values to compare against. The endpoint aggregates these filters to compute the count of parcels matching all provided criteria.
 
 #### Request Body
+```json
 [
   {
     "meta_id": 0,
@@ -172,20 +176,21 @@ The request for this endpoint requires a list of Filter objects. Each Filter spe
     ...
   }
 ]
-
+```
 
 #### Response
 The response from this endpoint is a single integer value representing the count of parcels that satisfy all the specified filters. This count is useful for analytics and reporting purposes.
-
 
 ### Search Parcels
 The Search Parcels endpoint retrieves detailed information about parcels that match a set of filter criteria. This allows users to not only know the count but also examine the specific parcels that fulfill the given conditions.
 
 #### Request
 Similar to the Search Count endpoint, the request body for Search Parcels requires a list of Filter objects, defining the criteria for which parcels to retrieve. Each Filter object details the metadata ID, operation, and value(s) to apply in the search.
+
 `GET /v1/search/parcels`
 
 #### Request Body
+```json
 [
   {
     "meta_id": 0,
@@ -198,6 +203,7 @@ Similar to the Search Count endpoint, the request body for Search Parcels requir
     ...
   }
 ]
+```
 
 
 #### Response
