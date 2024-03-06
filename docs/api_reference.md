@@ -104,10 +104,10 @@ Retrieves detailed information about a specific parcel by its ID, with an option
 ### Parameters
 | Name        | Description                                                  | Type    | In    | Required |
 |-------------|--------------------------------------------------------------|---------|-------|----------|
-| `parcel_id` | The unique Hyperplan identifier for the parcel.             | integer | path  | Yes      |
-| `meta_id`   | Optional filter list to retrieve labels by their meta identifier. | integer | query | No       |
-| `years`     | Optional year filter list to retrieve labels                 | integer | query | No       |
-| `weeks`     | Optional week filter list to retrieve labels                 | integer | query | No       |
+| **parcel_id** | The unique Hyperplan identifier for the parcel.             | integer | path  | Yes      |
+| **meta_id**   | Optional filter list to retrieve labels by their meta identifier. | integer | query | No       |
+| **years**     | Optional year filter list to retrieve labels                 | integer | query | No       |
+| **weeks**     | Optional week filter list to retrieve labels                 | integer | query | No       |
 
 
 ### Response
@@ -144,10 +144,10 @@ It is also possible to query a parcel with it's external code, although unicity 
 ### Parameters
 | Name       | Description                                                  | Type    | In    | Required |
 |------------|--------------------------------------------------------------|---------|-------|----------|
-| `code`     | The external identifier for the parcel.                      | integer | path  | Yes      |
-| `meta_id`  | Optional filter list to retrieve labels by their meta identifier. | integer | query | No       |
-| `years`    | Optional year filter list to retrieve labels                 | integer | query | No       |
-| `weeks`    | Optional week filter list to retrieve labels                 | integer | query | No       |
+| **code**     | The external identifier for the parcel.                      | integer | path  | Yes      |
+| **meta_id**  | Optional filter list to retrieve labels by their meta identifier. | integer | query | No       |
+| **years**    | Optional year filter list to retrieve labels                 | integer | query | No       |
+| **weeks**    | Optional week filter list to retrieve labels                 | integer | query | No       |
 
 
 ## Searching for a range of Parcels and their labels
