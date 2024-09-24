@@ -1,58 +1,96 @@
 The Parcel API facilitates robust parcel data management operations. 
 
-It encompasses endpoints for getting information about parcel and label metadata, alongside specialized search functionalities for comprehensive data retrieval and analysis. This API is designed to streamline parcel data retrieval, offering detailed insights and control over parcel data for efficient operations.
+The Parcel API facilitates robust parcel data management operations. It encompasses endpoints for obtaining information about parcel and label metadata, alongside specialized search functionalities for comprehensive data retrieval and analysis. This API is designed to streamline parcel data retrieval, offering detailed insights and control over parcel data for efficient operations.
 
 ## Labels Metadata
-Label Metadata, as described by the provided API endpoint, refers to detailed information about various labels that can be assigned to a parcel. This metadata is crucial for categorizing, organizing, and managing labels efficiently, especially our large-scale and complex system where data annotation and retrieval are essential.
+Label Metadata refers to detailed information about various labels that can be assigned to a parcel. This metadata is crucial for categorizing, organizing, and managing labels efficiently, especially in large-scale and complex systems where data annotation and retrieval are essential.
 
+### Label Metadata Properties
 Label Metadata holds the following information:
-- `id`: A unique identifier for the label.
-- `name`: The human-readable name of the label.
-- `description`: A more detailed description of what the label represents or is used for.
-- `category`: Specifies the type of data the label is associated with, e.g., "TEXT".
-- `yearly`: A boolean indicating whether the label is applied on a yearly basis.
-- `weekly`: A boolean indicating whether the label is applied on a weekly basis.
-- `color`: A string that represents the color associated with the label, which can be useful for visual differentiation in user interfaces.
-- `icon`: A string that represents the icon associated with the label, further aiding in visual identification.
-- `validation`: An object that defines validation criteria for the label, depending on its category:
-    - `type`: Specifies the label type: `TEXT`, `NUMERICAL`, `DATE` or `OBJECT`
-    - the rest of the validation data depends on the label type
 
-### Label Validation 
+- `id` (integer): A unique identifier for the label.
+- `name` (string): The human-readable name of the label.
+- `description` (string, nullable): A detailed description of what the label represents or is used for.
+- `category` (string): Specifies the type of data the label is associated with. Possible values are: `"TEXT"`, `"NUMBER"`, `"DATE"`, `"ZONE"`, `"FARM"`, `"FACILITY"` and `"USER"`
+- `isYearly` (boolean): Indicates whether the label is applied on a yearly basis.
+- `isWeekly` (boolean): Indicates whether the label is applied on a weekly basis.
+- `isEditable` (boolean): Indicates whether the label can be edited.
+- `color` (string, nullable): Represents the color associated with the label, useful for visual differentiation in user interfaces.
+- `icon` (string, nullable): Represents the icon associated with the label, aiding in visual identification.
+- `validation` (object, nullable): Defines validation criteria for the label, depending on its category.
+- `lastUpdatedAt` (string, date-time): Timestamp of the last update to the label metadata.
+- `years` (array of integers, nullable): List of years the label is applicable to.
+- `type` (string, nullable): The type of the label meta.
+- `display` (array of strings, nullable): Front-end display layers where the label is used. Possible values are: `"history"`, `"view"`, `"parcel_panel"`, `"split"`, `"evolution"`
+- `fancy` (boolean): Indicates whether the label has advanced features.
+- `authorizedValues` (array of integers): List of authorized values for the label. If empty, all values are authorized. This is relevant for labels with category `"TEXT"`.
 
-When a label is of type `TEXT`, the label value is saved as an integer that points to a human readable text. This allows a more efficient way of storing the information, to limit human input errors, as well as more efficiently giving the choice information to the frontend. 
+### Label Validation
+The `validation` object provides additional constraints and definitions for the label's values based on its category.
 
-When the label is a `TEXT` label, the validation data therefore holds a `choice` attribute:
-- `choice`: An array of objects representing the choices available for this label. Each choice object includes:
-    - `color`: The color associated with the choice, represented as a hex code.
-    - `icon`: An identifier for an icon associated with the choice.
-    - `key`: A unique identifier for the choice.
-    - `value`: The human-readable value or name of the choice.
+#### Text Validation
 
-When the label is a `NUMBER` label, the validation data therefor holds a `choice` attribute:
+For labels of type `"TEXT"`, the validation object is as follows:
+- `type` (string): Must be "TEXT".
+- `choice` (array of KeyValueTextValidation objects): Represents the choices available for this label.
 
-The API will provide Label Metadata in the following format:
+Each KeyValueTextValidation object includes:
+- `key` (integer): A unique identifier for the choice.
+- `value` (string): The human-readable value or name of the choice.
+- `icon` (string, nullable): An identifier for an icon associated with the choice.
+- `color` (string, nullable): The color associated with the choice, represented as a hex code.
+- `falcoId` (string, nullable): An optional identifier for integration with other systems.
+
+#### Number Validation
+
+For labels of type `"NUMBER"`, the validation object is:
+- `type` (string): Must be "NUMBER".
+- `min` (integer, nullable): Minimum acceptable value.
+- `max` (integer, nullable): Maximum acceptable value.
+- `unit` (string, nullable): Unit of measurement.
+- `precision` (integer, nullable): Number of decimal places.
+
+#### Other Validations
+
+Other label types like `"ZONE"`, `"FARM"`, `"FACILITY"`, and `"USER"` have their respective validation schemas, primarily indicating the type and related IDs.
+
+### Example of Label Metadata
 ```json
-  {
-    "id": 0,
-    "name": "string",
-    "description": "string",
-    "category": "TEXT",
-    "yearly": true,
-    "weekly": true,
-    "color": "string",
-    "icon": "string",
-    "validation": {
-      "type": "TEXT",
-      "choice": [
-        {
-          "color": "#000000",
-          "icon": "fz-toto",
-          "key": 1,
-          "value": "Colza"
-        }
-      ]
-    }
+{
+  "id": 1,
+  "name": "Crop Type",
+  "description": "Type of crop grown on the parcel",
+  "category": "TEXT",
+  "isYearly": true,
+  "isWeekly": false,
+  "isEditable": true,
+  "color": "#00FF00",
+  "icon": "crop-icon",
+  "validation": {
+    "type": "TEXT",
+    "choice": [
+      {
+        "key": 1,
+        "value": "Wheat",
+        "icon": "wheat-icon",
+        "color": "#FFFF00",
+        "falcoId": "wheat"
+      },
+      {
+        "key": 2,
+        "value": "Corn",
+        "icon": "corn-icon",
+        "color": "#FFA500",
+        "falcoId": "corn"
+      }
+    ]
+  },
+  "lastUpdatedAt": "2023-10-10T12:00:00Z",
+  "years": [2021, 2022, 2023],
+  "type": null,
+  "display": ["view", "parcel_panel"],
+  "fancy": false,
+  "authorizedValues": [1, 2]
 }
 ```
 
