@@ -20,7 +20,7 @@ Label Metadata holds the following information:
 - `validation` (object, nullable): Defines validation criteria for the label, depending on its category.
 - `lastUpdatedAt` (string, date-time): Timestamp of the last update to the label metadata.
 - `years` (array of integers, nullable): List of years the label is applicable to.
-- `type` (string, nullable): The type of the label meta.
+- `type` (string, nullable): The type of the label, for example, is it a "crop classification", a 
 - `display` (array of strings, nullable): Front-end display layers where the label is used. Possible values are: `"history"`, `"view"`, `"parcel_panel"`, `"split"`, `"evolution"`
 - `fancy` (boolean): Indicates whether the label has advanced features.
 - `authorizedValues` (array of integers): List of authorized values for the label. If empty, all values are authorized. This is relevant for labels with category `"TEXT"`.
@@ -31,7 +31,6 @@ The `validation` object provides additional constraints and definitions for the 
 #### Text Validation
 
 For labels of type `"TEXT"`, the validation object is as follows:
-- `type` (string): Must be "TEXT".
 - `choice` (array of KeyValueTextValidation objects): Represents the choices available for this label.
 
 Each KeyValueTextValidation object includes:
@@ -95,98 +94,67 @@ Other label types like `"ZONE"`, `"FARM"`, `"FACILITY"`, and `"USER"` have their
 ```
 
 ## HTTP Request
-To get Metadata information available to your organisation, use the `/labels/info` endpoint:
+To get metadata information available to your organization, use the `/v1/labels/info` endpoint:
 
 GET `/v1/labels/info`
 
-#### Response:
-Status Code: `200`
+### Response
+- Status Code: `200 OK`
+- Content Type: `application/json`
+- Body:
 ```json
 [
-  {<label metadata>}
+  {
+    "id": 1,
+    "name": "Crop Type",
+    "description": "Type of crop grown on the parcel",
+    "category": "TEXT",
+    "isYearly": true,
+    "isWeekly": false,
+    "isEditable": true,
+    "color": "#00FF00",
+    "icon": "crop-icon",
+    "validation": { /* See validation object */ },
+    "lastUpdatedAt": "2023-10-10T12:00:00Z",
+    "years": [2021, 2022, 2023],
+    "type": null,
+    "display": ["view", "parcel_panel"],
+    "fancy": false,
+    "authorizedValues": [1, 2]
+  }
+  // ... additional label metadata
 ]
 ```
 
-## Labels
-
-Here are the Labels available in Hyperplan Organization, excluding private labels:
-
-| Name                      | Description                                                                    | Category | Source                 | Yearly | Weekly |
-|---------------------------|--------------------------------------------------------------------------------|----------|------------------------|--------|--------|
-| **Area**                  | Parcel area in (Ha)                                                            | Number   | RPG                    | False  | False  |
-| **NDVI**                  | Average NDVI of the parcel                                                     | Number   | Sentinel 2             | True   | True   |
-| **Product**               | Crop detected on the parcel                                                    | Text     | Hyperplan              | True   | False  |
-| **Yield**                 | Predictive yield of the parcel for the crop (see 3)                            | Number   | Hyperplan              | True   | False  |
-| **Temperature**           | Observed accumulative temperature on the plot                                  | Number   | MeteoBlue              | True   | True   |
-| **Rainfalls**             | Observed accumulative rainfalls on the plot                                    | Number   | MeteoBlue              | True   | True   |
-| **Soil type**             | Soil type of the plot                                                          | Text     | LUCAS                  | False  | False  |
-| **Irrigation**            | Observation if the parcel is irrigated or not (parcel property, not real time) | Number   | Hyperplan              | False  | False  |
-| **Hydric stress**         | Observation if the parcel hydric stress level or not (parcel property)         | Number   | Hyperplan              | False  | False  |
-| **Closest silo**          | Closest silo parcel defines, according to the organisation                     | Object   | Client Silo Base       | False  | False  |
-| **Zones**                 | Zones to which the parcel Belongs                                              | Object   | Hyperplan              | False  | False  |
-| **Farm**                  | Farm owner of that parcel                                                      | Object   | Client CRM Information | False  | False  |
-| **Sowing date**           | Detected sowing date                                                           | Date     | Hyperplan              | True   | False  |
-| **Harvest maturity date** | Estimated maturity date                                                        | Date     | Hyperplan              | True   | False  |
-| **Harvest date**          | Detected harvest date                                                          | Date     | Hyperplan              | True   | False  |
-| **Anomaly detection**     | Anomaly detected on the parcel: NDVI not heterogen                             | Text     | Hyperplan              | True   | False  |
-| **Risk detected**         | Parcel where sowing has been done but the NDVI is not increasing               | Text     | Hyperplan              | True   | False  |
-| **Crop Coverage Days**    | Number of day when the NDVI of the parcel is > 25                              | Number   | Hyperplan              | True   | False  |
-
-
 ## Looking up a Parcel and its labels
-Retrieves detailed information about a specific parcel by its ID, with an optional filter for specific labels based on their `meta_id`.
+GET `/v1/parcels/{parcel_id}`
 
-### HTTP Request
-`GET /v1/parcels/{parcel_id}`
-
-### Parameters
-| Name        | Description                                                  | Type    | In    | Required |
-|-------------|--------------------------------------------------------------|---------|-------|----------|
-| **parcel_id** | The unique Hyperplan identifier for the parcel.             | integer | path  | Yes      |
-| **meta_id**   | Optional filter list to retrieve labels by their meta identifier. | integer | query | No       |
-| **years**     | Optional year filter list to retrieve labels                 | integer | query | No       |
-| **weeks**     | Optional week filter list to retrieve labels                 | integer | query | No       |
-
+#### Parameters
+- `parcel_id` (integer, required): The unique identifier for the parcel.
+- `labelIds` (array of integers, optional): List of label meta IDs to filter labels.
 
 ### Response
 ```json
 {
-  "id": 0,
-  "code": 0,
-  "geometry": "string",
-  "centroid": "string",
+  "id": "12345",
+  "geometry": "MULTIPOLYGON(((...)))",
+  "centroid": "POINT(...)",
   "labels": [
     {
-      "meta_id": 1,
-      "week": 24,
-      "year": 2023,
-      "value": "Value specific to the label for this week and year"
-    },
-    {
-      "meta_id": 2,
-      "week": 24,
-      "year": 2023,
-      "value": "Another value for a different label, same week and year"
+      "labelMetaId": 1,
+      "values": [
+        {
+          "year": 2023,
+          "week": null,
+          "status": "VALIDATED",
+          "value": 1  // Corresponds to "Wheat"
+        }
+      ]
     }
+    // ... additional labels
   ]
 }
 ```
-
-Where `geometry` is the WKT string of the parcel polygon, `centroid` is the long/lat centroid of the parcel, `code` is the external reference id of the parcel (for France it is the RPG parcel id).
-
-It is also possible to query a parcel with it's external code, although unicity is not garanteed.
-### HTTP Request
-
-`GET /v1/parcels/code/{code}`
-
-### Parameters
-| Name       | Description                                                  | Type    | In    | Required |
-|------------|--------------------------------------------------------------|---------|-------|----------|
-| **code**     | The external identifier for the parcel.                      | integer | path  | Yes      |
-| **meta_id**  | Optional filter list to retrieve labels by their meta identifier. | integer | query | No       |
-| **years**    | Optional year filter list to retrieve labels                 | integer | query | No       |
-| **weeks**    | Optional week filter list to retrieve labels                 | integer | query | No       |
-
 
 ## Searching for a range of Parcels and their labels
 The Hyperplan API system provides a for querying parcel data, namely Search Count and Search Parcels. These endpoints allow users to apply various filters to search through parcels based on metadata attributes. The core component driving these searches is the Search Query Object, which encapsulates the criteria for filtering parcels.
