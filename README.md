@@ -11,6 +11,8 @@ The API provides detailed label metadata in a predefined format, including valid
 
 For parcel-specific information, the API supports retrieving detailed data by parcel ID, with optional filters for labels, years, and weeks, offering a comprehensive view of parcel characteristics and changes over time.
 
+The API also provides reduce operations, enabling users to perform aggregate calculations (sum, average, etc.) on selected parcel attributes based on specific filters and bins. This feature is particularly useful for generating summaries and insights across multiple parcels, allowing for deeper analysis and better decision-making on a large scale. By applying binning and filtering techniques, users can tailor their data exploration to specific areas of interest, gaining valuable insights into agricultural trends and performance metrics.
+
 
 ## HyperClient
 [HyperClient](./docs/quickstart.md) is a powerful and simple-to-use API client python library designed to make HTTP requests to the HyperAPI. It simplifies the process of interacting with the API by providing a straightforward method of making GET, POST, and DELETE requests, handling authentication, and processing responses.
