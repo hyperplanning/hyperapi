@@ -276,3 +276,167 @@ To find parcels where the detected crop is "Wheat" in 2023:
   ]
 }
 ```
+
+
+## Aggregating Any Label Information - Reduce Query.
+
+### Endpoint Documentation: POST `/v1/elastic/search/reduce`
+
+### Description
+This endpoint allows you to perform aggregation operations (e.g., sum, average) on any label while binning and filtering based on other labels. It also allows filtering of the parcels that go into the reduction (map part). This can be used to generate statistical insights and summaries based on the spatial and temporal data of parcels.
+
+### Request Body Format:
+```json
+{
+  "agg": {
+    "agg_year": 0,
+    "metaId": 1,
+    "operation": "sum"
+  },
+  "bins": [
+    {
+      "metaId": 1,
+      "operation": "in",
+      "value": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "filters": [
+    [
+      {
+        "metaId": 1,
+        "operation": ">=",
+        "value": 1,
+        "week": 0,
+        "years": [
+          2023
+        ]
+      },
+      {
+        "metaId": 3,
+        "operation": "<",
+        "value": 100
+      }
+    ],
+    [
+      {
+        "metaId": 1,
+        "operation": "in",
+        "value": [
+          1
+        ],
+        "week": 0,
+        "years": [
+          2024
+        ]
+      }
+    ]
+  ],
+  "years": [
+    2023,
+    2024
+  ]
+}
+```
+
+### Response Schema Example
+```json
+[
+  {
+    "groupby": {
+      "metaId": 1,
+      "value": 2
+    },
+    "value": 300.5
+  }
+]
+```
+
+### Example Use Cases
+
+1. Sum of Crop Yield by Farm Size
+
+To calculate the total yield of crops for parcels within different Crop Types:
+```json
+{
+  "agg": {
+    "agg_year": 2024,
+    "metaId": 4,  // Assuming 4 is the ID for "Yield"
+    "operation": "mean"
+  },
+  "bins": [
+    {
+      "metaId": 1,  // Assuming 1 is the ID for Crop
+      "operation": "in",
+      "value": [
+        1, 2, 3  // Bins representing different Crop
+      ]
+    }
+  ],
+  "filters": [
+    [
+      {
+        "metaId": 5,  // Filter by specific temperature
+        "operation": ">",
+        "value": 1000
+      }
+    ]
+  ],
+  "years": [2024]
+}
+```
+
+2. Average NDVI by Crop Type for Specific Year
+   
+To find the average NDVI (Normalized Difference Vegetation Index) values for different crop types in 2023
+
+```json
+{
+  "agg": {
+    "agg_year": 2023,
+    "metaId": 2,  // Assuming 2 is the ID for "NDVI"
+    "operation": "avg"
+  },
+  "bins": [
+    {
+      "metaId": 3,  // Assuming 3 is the ID for "Crop Type"
+      "operation": "in",
+      "value": [1, 2, 3]  // IDs for different crop types
+    }
+  ],
+  "filters": [],
+  "years": [2023]
+}
+```
+
+3. Maximum Temperature by Region with Rainfall Filter
+To find the maximum temperature in different regions where the rainfall was below 200mm in 2023
+```json
+{
+  "agg": {
+    "agg_year": 2023,
+    "metaId": 5,  // Assuming 5 is the ID for "Temperature"
+    "operation": "max"
+  },
+  "bins": [
+    {
+      "metaId": 7,  // Assuming 7 is the ID for "Region"
+      "operation": "in",
+      "value": [1, 2, 3]  // Region IDs
+    }
+  ],
+  "filters": [
+    [
+      {
+        "metaId": 6,  // Assuming 6 is the ID for "Rainfall"
+        "operation": "<=",
+        "value": 200
+      }
+    ]
+  ],
+  "years": [2023]
+}
+```
