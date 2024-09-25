@@ -164,24 +164,25 @@ The Search Count endpoint is designed to count the number of parcels that meet s
 
 #### Request
 
-`GET /v1/search/count`
+`GET /v1/elastic/search/count`
 
-The request for this endpoint requires a list of Filter objects. Each Filter specifies a condition that the parcels must meet. The conditions are based on the metadata attributes associated with each parcel. The filters define the metadata ID (`meta_id`), the operation to perform (such as `=`, `>`, `<`, `in`), and the values to compare against. The endpoint aggregates these filters to compute the count of parcels matching all provided criteria.
+The request for this endpoint requires a list of Filter objects. Each Filter specifies a condition that the parcels must meet. The conditions are based on the metadata attributes associated with each parcel. The filters define the metadata ID (`metaId`), the operation to perform (such as `=`, `>`, `<`, `in`), and the values to compare against. The endpoint aggregates these filters to compute the count of parcels matching all provided criteria.
 
 #### Request Body
 ```json
-[
-  {
-    "meta_id": 0,
-    "operation": "=, >, < or in",
-    "year": 0,
-    "week": 0,
-    "value": 0
-  },
-  {
-    ...
-  }
-]
+{
+  "filters": [
+    {
+      "metaId": 0,
+      "operation": "in",
+      "years": [
+        0
+      ],
+      "week": 0,
+      "value": 0
+    }
+  ]
+}
 ```
 
 #### Response
@@ -193,22 +194,28 @@ The Search Parcels endpoint retrieves detailed information about parcels that ma
 #### Request
 Similar to the Search Count endpoint, the request body for Search Parcels requires a list of Filter objects, defining the criteria for which parcels to retrieve. Each Filter object details the metadata ID, operation, and value(s) to apply in the search.
 
-`GET /v1/search/parcels`
+`GET /v1/elastic/search/parcels`
 
 #### Request Body
 ```json
-[
-  {
-    "meta_id": 0,
-    "operation": "=, >, < or in",
-    "year": 0,
-    "week": 0,
-    "value": 0
-  },
-  {
-    ...
+{
+  "filters": [
+    [
+      {
+        "metaId": 1,
+        "operation": "in",
+        "value": [
+          1
+        ],
+        "year": 2023
+      }
+    ]
+  ],
+  "label": {
+    "metaId": 1,
+    "year": 2023
   }
-]
+}
 ```
 
 
@@ -223,9 +230,15 @@ Given the list of possible labels for parcel data within the API, let's explore 
 To find parcels larger than 10 hectares:
 ```json
 {
-  "meta_id": 1,  # Assuming 1 is the ID for "Area"
-  "operation": ">",
-  "value": 10
+  "filters": [
+    [
+      {
+        "metaId": 1,  // Assuming 1 is the ID for "Area"
+        "operation": ">",
+        "value": 10
+      }
+    ]
+  ]
 }
 ```
 
@@ -233,11 +246,17 @@ To find parcels larger than 10 hectares:
 To select parcels with an average NDVI less than 0.5 in the year 2023 and week 24:
 ```json
 {
-  "meta_id": 2,  # Assuming 2 is the ID for "NDVI"
-  "operation": "<",
-  "year": 2023,
-  "week": 24,
-  "value": 0.5
+  "filters": [
+    [
+      {
+        "metaId": 2,  // Assuming 2 is the ID for "NDVI"
+        "operation": "<",  // "inf" means less than
+        "year": 2023,
+        "week": 24,
+        "value": 0.5
+      }
+    ]
+  ]
 }
 ```
 
@@ -245,30 +264,15 @@ To select parcels with an average NDVI less than 0.5 in the year 2023 and week 2
 To find parcels where the detected crop is "Wheat" in 2023:
 ```json
 {
-  "meta_id": 3,  # Assuming 3 is the ID for "Product"
-  "operation": "=",
-  "year": 2023,
-  "value": 1 # Assuming 1 is Wheat Choice ID
+  "filters": [
+    [
+      {
+        "metaId": 3,  // Assuming 3 is the ID for "Product"
+        "operation": "equal",  // "equal" means exactly matches
+        "year": 2023,
+        "value": 1  // Assuming 1 is the Choice ID for Wheat
+      }
+    ]
+  ]
 }
-```
-
-### Example 5: Filter by Temperature and Rainfalls
-To find parcels that have observed accumulative temperature above 1000°C and accumulative rainfalls less than 200mm for the year 2023:
-```json
-[
-// Temperature Filter
-{
-  "meta_id": 5,  # Assuming 5 is the ID for "Temperature"
-  "operation": ">",
-  "year": 2023,
-  "value": 1000
-}, 
-# Rainfall Filter
-{
-  "meta_id": 6,  # Assuming 6 is the ID for "Rainfalls"
-  "operation": "<",
-  "year": 2023,
-  "value": 200
-}
-]
 ```
