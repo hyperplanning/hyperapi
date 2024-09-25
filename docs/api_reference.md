@@ -3,7 +3,7 @@ The Parcel API facilitates robust parcel data management operations.
 The Parcel API facilitates robust parcel data management operations. It encompasses endpoints for obtaining information about parcel and label metadata, alongside specialized search functionalities for comprehensive data retrieval and analysis. This API is designed to streamline parcel data retrieval, offering detailed insights and control over parcel data for efficient operations.
 
 ## Labels Metadata
-Label Metadata refers to detailed information about various labels that can be assigned to a parcel. This metadata is crucial for categorizing, organizing, and managing labels efficiently, especially in large-scale and complex systems where data annotation and retrieval are essential. You can find An example of Available Labels [here](./docs/labels.md)
+Label Metadata refers to detailed information about various labels that can be assigned to a parcel. This metadata is crucial for categorizing, organizing, and managing labels efficiently, especially in large-scale and complex systems where data annotation and retrieval are essential. You can find An example of Available Labels [here](./labels.md)
 
 ### Label Metadata Properties
 Label Metadata holds the following information:
