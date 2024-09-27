@@ -357,7 +357,7 @@ This endpoint allows you to perform aggregation operations (e.g., sum, average) 
 
 ### Example Use Cases
 
-1. Sum of Crop Yield by Farm Size
+1. Sum of Crop Yield by Product Id
 
 To calculate the total yield of crops for parcels within different Crop Types:
 ```json
