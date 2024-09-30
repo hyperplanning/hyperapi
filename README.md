@@ -5,11 +5,21 @@ Hyperplan provides an API access to his clients and partnership companies.
 ## [API](./docs/api_reference.md) Reference
 The [Parcel API](./docs/api_reference.md) is designed for efficient parcel data management, featuring endpoints for accessing parcel and label metadata, and incorporating advanced search capabilities for thorough data retrieval and analysis. It aims to simplify parcel data access, providing in-depth insights for streamlined operations.
 
+### Zones and Zone Management
+
+A key feature of the Parcel API is its ability to manage and query zones. Zones represent geographical areas such as departments, municipalities, postal codes, and other administrative regions. Each zone belongs to a specific zone group, and zones can be queried to retrieve detailed metadata including boundaries, centroids, and unique identifiers for Mapbox integration. For more details on zone groups and zone management, refer to the [Zones Documentation](./docs/zones.md), where the full list of zone groups and zone-related operations is described.
+
+### Label Metadata
+
 Label metadata includes detailed information about parcel labels such as unique identifiers, names, descriptions, categories (e.g., "TEXT"), and properties indicating the frequency of application (yearly, weekly). It also includes visual differentiation features like color and icon, and validation criteria depending on the label type (TEXT, NUMERICAL, DATE, OBJECT).
 
 The API provides detailed label metadata in a predefined format, including validation types and choices, enhancing data annotation and retrieval in complex systems. Additionally, it outlines available labels within the Hyperplan Organization, covering various parcel characteristics from area and crop details to environmental conditions and parcel properties, excluding private labels.
 
+### Parcel-Specific Information
+
 For parcel-specific information, the API supports retrieving detailed data by parcel ID, with optional filters for labels, years, and weeks, offering a comprehensive view of parcel characteristics and changes over time.
+
+### Aggregation and Analysis
 
 The API also provides reduce operations, enabling users to perform aggregate calculations (sum, average, etc.) on selected parcel attributes based on specific filters and bins. This feature is particularly useful for generating summaries and insights across multiple parcels, allowing for deeper analysis and better decision-making on a large scale. By applying binning and filtering techniques, users can tailor their data exploration to specific areas of interest, gaining valuable insights into agricultural trends and performance metrics.
 
