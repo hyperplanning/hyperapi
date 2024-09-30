@@ -156,6 +156,46 @@ GET `/v1/parcels/{parcel_id}`
 }
 ```
 
+## Looking up a Parcel by Centroid Coordinates
+GET `/v1/parcels/centroid/{long}/{lat}`
+
+#### Parameters
+- `long` (float, required): The longitude of the centroid, using the EPSG:4326 projection (WGS 84).
+- `lat` (float, required): The latitude of the centroid, using the EPSG:4326 projection (WGS 84).
+
+### Response
+```json
+{
+  "id": "250000038000083211",
+  "geometry": "MULTIPOLYGON (((5.198107 45.228454, 5.196919 45.22892, 5.196081 45.229222, 5.196476 45.229649, 5.196517 45.229641, 5.19661 45.229622, 5.196792 45.229607, 5.196795 45.229607, 5.196842 45.22959, 5.197427 45.229311, 5.197558 45.229234, 5.197709 45.229166, 5.19783 45.22912, 5.198068 45.229007, 5.198214 45.228937, 5.198351 45.228853, 5.198745 45.228666, 5.198841 45.228597, 5.198801 45.228567, 5.198497 45.228523, 5.198283 45.228491, 5.198107 45.228454)))",
+  "centroid": "POINT (5.197234905629138 45.2290635)",
+  "value": null
+}
+```
+#### Response Fields
+- `id` (string): The unique identifier for the parcel.
+- `geometry` (string): The geometry of the parcel, represented as a `MULTIPOLYGON`, which defines the shape and boundaries of the parcel.
+- `centroid` (string): The centroid of the parcel, represented as a `POINT` with the coordinates `long lat`.
+- `value` (nullable): An optional field, which may contain additional information about the parcel. In the current response, this field is `null`.
+
+### Example Request
+
+**Request:**
+
+```bash
+GET /v1/parcels/centroid/5.197234/45.229063
+```
+**Response:**
+
+```json
+{
+  "id": "250000038000083211",
+  "geometry": "MULTIPOLYGON (((5.198107 45.228454, 5.196919 45.22892, 5.196081 45.229222, 5.196476 45.229649, 5.196517 45.229641, 5.19661 45.229622, 5.196792 45.229607, 5.196795 45.229607, 5.196842 45.22959, 5.197427 45.229311, 5.197558 45.229234, 5.197709 45.229166, 5.19783 45.22912, 5.198068 45.229007, 5.198214 45.228937, 5.198351 45.228853, 5.198745 45.228666, 5.198841 45.228597, 5.198801 45.228567, 5.198497 45.228523, 5.198283 45.228491, 5.198107 45.228454)))",
+  "centroid": "POINT (5.197234905629138 45.2290635)",
+  "value": null
+}
+```
+
 ## Searching for a range of Parcels and their labels
 The Hyperplan API system provides a for querying parcel data, namely Search Count and Search Parcels. These endpoints allow users to apply various filters to search through parcels based on metadata attributes. The core component driving these searches is the Search Query Object, which encapsulates the criteria for filtering parcels.
 
