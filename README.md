@@ -3,15 +3,15 @@
 Hyperplan provides an API access to his clients and partnership companies.
 
 ## [API](./docs/api_reference.md) Reference
-The [Parcel API](./docs/api_reference.md) is designed for efficient parcel data management, featuring endpoints for accessing parcel and label metadata, and incorporating advanced search capabilities for thorough data retrieval and analysis. It aims to simplify parcel data access, providing in-depth insights for streamlined operations.
+The [Hyperplan API](./docs/api_reference.md) is designed for efficient parcel data management, featuring endpoints for accessing parcel and label metadata, and incorporating advanced search capabilities for thorough data retrieval and analysis. It aims to simplify parcel data access, providing in-depth insights for streamlined operations.
 
 ### Zones and Zone Management
 
-A key feature of the Parcel API is its ability to manage and query zones. Zones represent geographical areas such as departments, municipalities, postal codes, and other administrative regions. Each zone belongs to a specific zone group, and zones can be queried to retrieve detailed metadata including boundaries, centroids, and unique identifiers for Mapbox integration. For more details on zone groups and zone management, refer to the [Zones Documentation](./docs/zones.md), where the full list of zone groups and zone-related operations is described.
+A key feature of the Hyperplan API is its ability to manage and query zones. Zones represent geographical areas such as departments, municipalities, postal codes, and other administrative regions. Each zone belongs to a specific zone group, and zones can be queried to retrieve detailed metadata including boundaries, centroids, and unique identifiers for Mapbox integration. For more details on zone groups and zone management, refer to the [Zones Documentation](./docs/zones.md), where the full list of zone groups and zone-related operations is described.
 
 ### Facilities Management
 
-The Parcel API also enables the management and retrieval of facilities. Facilities represent physical locations such as warehouses, depots, or other types of organizational units. Each facility is associated with specific geographical coordinates, and optionally, a CRM code for further integration with CRM systems. The API provides detailed metadata for each facility, including its name, location, and unique identifier. For more details on facilities and their management, refer to the [Facilities Documentation](./docs/facilities.md), where the complete list of available facilities and related operations is documented.
+The Hyperplan API also enables the management and retrieval of facilities. Facilities represent physical locations such as warehouses, depots, or other types of organizational units. Each facility is associated with specific geographical coordinates, and optionally, a CRM code for further integration with CRM systems. The API provides detailed metadata for each facility, including its name, location, and unique identifier. For more details on facilities and their management, refer to the [Facilities Documentation](./docs/facilities.md), where the complete list of available facilities and related operations is documented.
 
 
 ### Label Metadata
