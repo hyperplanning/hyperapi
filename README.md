@@ -9,6 +9,11 @@ The [Parcel API](./docs/api_reference.md) is designed for efficient parcel data 
 
 A key feature of the Parcel API is its ability to manage and query zones. Zones represent geographical areas such as departments, municipalities, postal codes, and other administrative regions. Each zone belongs to a specific zone group, and zones can be queried to retrieve detailed metadata including boundaries, centroids, and unique identifiers for Mapbox integration. For more details on zone groups and zone management, refer to the [Zones Documentation](./docs/zones.md), where the full list of zone groups and zone-related operations is described.
 
+### Facilities Management
+
+The Parcel API also enables the management and retrieval of facilities. Facilities represent physical locations such as warehouses, depots, or other types of organizational units. Each facility is associated with specific geographical coordinates, and optionally, a CRM code for further integration with CRM systems. The API provides detailed metadata for each facility, including its name, location, and unique identifier. For more details on facilities and their management, refer to the [Facilities Documentation](./docs/facilities.md), where the complete list of available facilities and related operations is documented.
+
+
 ### Label Metadata
 
 Label metadata includes detailed information about parcel labels such as unique identifiers, names, descriptions, categories (e.g., "TEXT"), and properties indicating the frequency of application (yearly, weekly). It also includes visual differentiation features like color and icon, and validation criteria depending on the label type (TEXT, NUMERICAL, DATE, OBJECT).
