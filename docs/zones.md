@@ -16,7 +16,7 @@ The response is an array of zone group objects, where each object provides infor
 - `editor` (nullable, string): The user who last edited the zone group, or `null` if no editor is assigned.
 - `isPublic` (boolean): A flag indicating whether the zone group is public (`true`) or restricted to specific users (`false`).
 - `id` (integer): The unique identifier for the zone group.
-- `floor` (nullable, string): This field is reserved for future use or specific cases, and is currently `null`.
+- `floor` (nullable, string): This field indicates the atomic unit or base level of the zone within the zone group. It specifies the smallest unit that constitutes the zone group, and its value can vary depending on the specific zone structure.
 - `isExclusive` (boolean): A flag that indicates whether the zone group's areas are exclusive (`true`, meaning they do not overlap geographically) or non-exclusive (`false`, meaning they can overlap geographically).
 - `name` (string): The name of the zone group (e.g., "Municipalities", "Postal codes", "Departments", etc.).
 - `mapboxId` (string): The unique identifier for the zone group used in the Mapbox system for visualization (e.g., `adm3`, `pos4`, `adm2`).
