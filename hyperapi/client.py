@@ -1,7 +1,6 @@
 import geopandas as gpd
 import pandas as pd
 import requests
-import yaml
 
 
 class HyperClient:
@@ -10,21 +9,24 @@ class HyperClient:
         self.session = requests.Session()
 
     def login(self, username, password):
-        login_url = f"{self.base_url}/login"
+        login_url = f"{self.base_url}/login/access-token"
         credentials = {"username": username, "password": password}
         response = self.session.post(login_url, data=credentials)
 
         if response.status_code == 200:
             self.session.headers.update(
-                {"Authorization": f"Bearer {response.json().get('token')}"}
+                {"Authorization": f"Bearer {response.json().get('access_token')}"}
             )
             return True
         else:
+            print("Login unsuccessful!")
             return False
 
-    def get(self, endpoint) -> requests.models.Response:
+    def get(self, endpoint, params=None) -> requests.models.Response:
         url = f"{self.base_url}/{endpoint}"
-        response = self.session.get(url)
+        response = self.session.get(url, params=params)
+        if response.status_code != 200:
+            raise Exception(f"Call unsuccessful with status code {response.status_code}")
         return response
 
     def post(self, endpoint, data) -> requests.models.Response:
