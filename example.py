@@ -8,16 +8,16 @@ auth = client.login(os.getenv("API_USR"), os.getenv("API_PWD"))
 
 # Listing Available Label Metas
 labels = client.get("labels/info")
-labels = {l["name"]: l for l in labels.json()}
+labels = {l["name"]: l for l in labels.json()['labelInfos']}
 
 # Getting Zones Groups
 zone_groups = client.get("zone-groups").json()
-zone_groups = {z["name"]: z for z in zone_groups}
+zone_groups = {z["name"]: z for z in zone_groups['zoneGroups']}
 
 # List all Departements
 zone_group_id = zone_groups["Departments"]["id"]
 deps = client.get(f"zones/{zone_group_id}").json()
-deps = {d["name"]: d for d in deps}
+deps = {d["name"]: d for d in deps['zones']}
 dep_id = deps["Loire (42)"]["id"]
 
 # Getting Commune composition of Target Department 'Loire (42)'

@@ -23,21 +23,21 @@ client.login(os.getenv("API_USR"), os.getenv("API_PWD"))
 This section retrieves metadata for all available labels and stores them in a dictionary with label names as keys for easier access using the `labels/info` endpoint:
 ```python
 labels = client.get("labels/info")
-labels = {l["name"]: l for l in labels.json()}
+labels = {l["name"]: l for l in labels.json()['labelInfos']}
 ```
 
 ## 4. Getting Zone Groups
 Here, zone groups (e.g., Departments, Municipalities) are fetched from the API and stored in a dictionary with the zone group names as keys.
 ```python
 zone_groups = client.get("zone-groups").json()
-zone_groups = {z["name"]: z for z in zone_groups}
+zone_groups = {z["name"]: z for z in zone_groups['zoneGroups']}
 ```
 
 Then, let's list all "Departements" available, and select one: "Loire".
 ```python
 zone_group_id = zone_groups["Departments"]["id"]
 deps = client.get(f"zones/{zone_group_id}").json()
-deps = {d["name"]: d for d in deps}
+deps = {d["name"]: d for d in deps['zones']}
 dep_id = deps["Loire (42)"]["id"]
 ```
 
